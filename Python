@@ -1,0 +1,32 @@
+print("BABYSITTING PAY CALCULATOR")
+
+# Import datetime class from datetime module.
+from datetime import datetime
+
+def user_inputs_date_time(prompt):
+    while True:
+        try:
+            date_str = input(prompt)
+            return datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            print("Invalid date format. Please use YYY-MM-DD hh:mm:ss.")
+
+drop_off = user_inputs_date_time("Enter date and time of drop-off (YYYY-MM-DD hh:mm:ss): ")
+pick_up = user_inputs_date_time("Enter date and time of pick-up (YYYY-MM-DD hh:mm:ss): ")
+
+time_at_babysitter = pick_up - drop_off
+
+days, seconds = time_at_babysitter.days, time_at_babysitter.seconds
+days = days
+hours = days * 24 + seconds // 3600
+minutes = (seconds % 3600) // 60
+seconds = seconds % 60
+
+# Print time at babysitter.
+print(f'Time at babysitter: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds')
+
+# User dollar and cent values of babysitter's RATE per hour.
+rate = input("Babysitter's rate per hour: ")
+print(rate)
+
+# Application's output of how much user OWES babysitter.
