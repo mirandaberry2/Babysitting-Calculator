@@ -3,16 +3,17 @@ print("BABYSITTING PAY CALCULATOR")
 # Import datetime class from datetime module.
 from datetime import datetime
 
+# User inputs drop-off and pick-up date/times.
 def user_inputs_date_time(prompt):
     while True:
         try:
             date_str = input(prompt)
-            return datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S")
+            return datetime.strptime(date_str, "%Y-%m-%d %H:%M")
         except ValueError:
-            print("Invalid date format. Please use YYY-MM-DD hh:mm:ss.")
+            print("Invalid date format. Please use YYYY-MM-DD hh:mm.")
 
-drop_off = user_inputs_date_time("Enter date and time of drop-off (YYYY-MM-DD hh:mm:ss): ")
-pick_up = user_inputs_date_time("Enter date and time of pick-up (YYYY-MM-DD hh:mm:ss): ")
+drop_off = user_inputs_date_time("Enter date and time of drop-off (YYYY-MM-DD hh:mm): ")
+pick_up = user_inputs_date_time("Enter date and time of pick-up (YYYY-MM-DD hh:mm): ")
 
 time_at_babysitter = pick_up - drop_off
 
@@ -22,11 +23,22 @@ hours = days * 24 + seconds // 3600
 minutes = (seconds % 3600) // 60
 seconds = seconds % 60
 
-# Print time at babysitter.
-print(f'Time at babysitter: {days} days, {hours} hours, {minutes} minutes, {seconds} seconds')
+# Print total time at babysitter.
+print(f'Time at babysitter: {hours} hours, {minutes} minutes')
 
-# User dollar and cent values of babysitter's RATE per hour.
-rate = input("Babysitter's rate per hour: ")
-print(rate)
+# Babysitter's rate per hour.
+def user_inputs_rate():
+    while True:
+        try:
+            rate = input("Enter babysitter's rate per hour in $$." + chr(162) + chr(162) + " format: ")
+            rate = float(rate)
+            if rate < 0:
+                raise ValueError("Amount must be non-negative.")
+            return rate
+        except ValueError:
+            print("Invalid input. Please enter a valid dollar and cent value.")
+rate = user_inputs_rate()
 
 # Application's output of how much user OWES babysitter.
+total_owed = (hours * rate) + ((minutes / 60) * rate)
+print("Amount owed: $" + str(total_owed))
